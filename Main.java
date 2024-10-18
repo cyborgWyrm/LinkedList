@@ -10,7 +10,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// declare ArrayList
-		ArrayList<HurricaneRowData> info = new ArrayList<HurricaneRowData>();
+		DoublyLinkedSortedList info = new DoublyLinkedSortedList();
 		
 		// declare scanner
 		Path p = Paths.get("ace.csv");
@@ -27,44 +27,31 @@ public class Main {
 		while (input.hasNextLine()) {
 			String[] temp = input.nextLine().split(","); // use .parseInt(str)
 			HurricaneRowData row = new HurricaneRowData(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),Integer.parseInt(temp[3]),Integer.parseInt(temp[4]));
-			info.add(row);
+			info.insert(row);
 		}
 		
 		
 		// run findHighestYear and set to a variable
-		int year = findHighestYear(info);
-		int ace = info.get(year-1950).getACE();
+		DoublyLinkedSortedList link = info.getFirst();
+		HurricaneRowData row = link.getValue();
 		
 		// print out both the highest year and the max ace value
-		System.out.println("The year with the highest ACE was " + year + ", with a value of " + ace);
+		System.out.println("The year with the highest ACE was " + row.getYear() + ", with a value of " + row.getACE());
 		
 		// print both into a txt file
 		// code taken from https://www.w3schools.com/java/java_files_create.asp and edited
 		
 		try {
 		  FileWriter output = new FileWriter("output.txt");
-		  output.write("The year with the highest ACE was " + year + ", with a value of " + ace);
+		  output.write("The year with the highest ACE was " + row.getYear() + ", with a value of " + row.getACE());
 		  output.close();
 		} catch (IOException e) {
 		  System.out.println("An error occurred.");
 		  e.printStackTrace();
 		}
 		
+		System.out.println(info.toString());
 		
-	}
-	
-	private static int findHighestYear(ArrayList<HurricaneRowData> info) {
-		// loop through info and find the highest ace value
-		int index = 0;
-		for (int i = 0; i < info.size(); i++) {
-			if (info.get(i).getACE() > info.get(index).getACE()) {
-				index = i;
-			}
-		}
-		
-		// return the corresponding year
-		int year = info.get(index).getYear();
-		return year;
 	}
 	
 	
