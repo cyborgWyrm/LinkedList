@@ -110,15 +110,21 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface{
 		
 		if (previous == null && thisAce < newAce) {
 			this.previous = newLink;
-			//System.out.print(1);
+			newLink.setNext(this);
+			///System.out.print(1);
 		}
 		else if (next == null && thisAce > newAce) {
 			this.next = newLink;
+			newLink.setPrevious(this);
 			//System.out.print(2);
 		}
 		else if (thisAce > newAce && next.value.getACE() < newAce) {
-			next.previous = newLink;
-			this.next = newLink;
+			newLink.setNext(next);
+			newLink.setPrevious(this);
+			
+			next.setPrevious(newLink);
+			this.setNext(newLink);
+			
 			//System.out.print(3);
 		}
 		else if (thisAce > newAce) {
@@ -133,40 +139,11 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface{
 			//System.out.println(6);
 		}
 		
-		
-		
-		/*if (value == null && next == null && previous == null) {
-			value = newValue;
-		}
-		else if (value.getACE() > newValue.getACE()) {
-			// if this ace is greater than the new ace, the new ace goes somewhere after
-			if (next != null) {
-				next.insert(newValue);
-			}
-			else {
-				next = new DoublyLinkedSortedList(newValue);
-				next.setPrevious(this);
-			}
-		}
-		else {
-			// if this ace <= new ace, insert new value in front
-			
-			if (previous != null) {
-				DoublyLinkedSortedList newLink = new DoublyLinkedSortedList(newValue);
-				previous.setNext(newLink);
-				previous = newLink;
-			}
-			else {
-				previous = new DoublyLinkedSortedList(newValue);
-				previous.setNext(this);
-			}
-		}*/
 	}
 	
 	//Return the entire list as a multi-line String
 	public String toString() {
 		String toReturn = value.toString() + "\n";
-		//System.out.println(value.getYear() + " " + previous + " " + next);
 		
 		if (next != null) {
 			toReturn += next.toString();
@@ -175,4 +152,12 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface{
 		return toReturn;
 	}
 	
+	// returns the size of the cuurent link. Needed for debugging
+	public int size() {
+		int toAdd = 0;
+		if (this.hasNext()) {
+			toAdd = next.size();
+		}
+		return 1 + toAdd;
+	}
 }

@@ -50,7 +50,7 @@ public class Main {
 		  e.printStackTrace();
 		}
 		
-		System.out.println(info.toString());
+		System.out.println(info.getFirst().toString());
 		
 	}
 	
